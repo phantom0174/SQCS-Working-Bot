@@ -1,0 +1,8 @@
+# Sensitive settings
+.env
+
+# buffer
+./txts
+
+# JetBrain files
+.idea
