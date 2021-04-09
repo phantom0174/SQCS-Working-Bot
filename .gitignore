@@ -2,7 +2,7 @@
 .env
 
 # buffer
-./txts/
+txts
 
 # JetBrain files
 .idea
