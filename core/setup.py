@@ -11,4 +11,4 @@ account = os.environ.get("ACCOUNT")
 link = f"mongodb+srv://{account}:{password}@light-cube-cluster.5wswq.mongodb.net/sqcs?retryWrites=true&w=majority"
 client = MongoClient(link)["sqcs-working"]
 
-rsp = JsonApi().get_json('human')
+rsp = JsonApi().get_json('HumanityExtensionJson')

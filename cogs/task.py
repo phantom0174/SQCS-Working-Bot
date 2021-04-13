@@ -14,14 +14,14 @@ class Task(Cog_Extension):
     async def quiz_auto(self):
         await self.bot.wait_until_ready()
 
-        status = JsonApi().get_json('dyn')
+        status = JsonApi().get_json('DynamicSettingJson')
 
         if func.now_time_info('hour') != 23 or status['buffer_flush'] == 1:
             if func.now_time_info('hour') == 1:
 
-                status = JsonApi().get_json('dyn')
+                status = JsonApi().get_json('DynamicSettingJson')
                 status['buffer_flush'] = 0
-                JsonApi().put_json('dyn', status)
+                JsonApi().put_json('DynamicSettingJson', status)
 
             return
 
@@ -30,7 +30,7 @@ class Task(Cog_Extension):
 
         status['buffer_flush'] = 1
 
-        JsonApi().put_json('dyn', status)
+        JsonApi().put_json('DynamicSettingJson', status)
 
 
 def setup(bot):

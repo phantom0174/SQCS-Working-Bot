@@ -2,6 +2,8 @@ from datetime import datetime, timezone, timedelta
 import math
 import discord
 import asyncio
+from core.classes import JsonApi
+import json
 
 
 def now_time_info(mode):
@@ -27,20 +29,15 @@ def getChannel(bot, target):
 
 
 async def buffer_pack(buffer):
-    logs = str()
-    found = bool(False)
-    while not found:
-        msg_logs = await buffer.history(limit=50).flatten()
-        for item in msg_logs:
-            if item.content != '#CHECKPOINT#':
-                logs += item.content + '\n'
-                await item.delete()
-            else:
-                found = True
-                break
 
-    if len(logs) == 0:
+    msg_logs = JsonApi().get_json('CmdLoggingJson')
+
+    if len(msg_logs["logs"]) == 0:
         return
+
+    logs = str()
+    for item in msg_logs["logs"]:
+        logs += f'{item}\n'
 
     with open('./txts/report_buffer.txt', mode='w', encoding='utf8') as temp_file:
         temp_file.write(logs)
@@ -49,8 +46,10 @@ async def buffer_pack(buffer):
     logs = ''
 
     await buffer.send(file=discord.File('./txts/report_buffer.txt'))
-    await buffer.send('#CHECKPOINT#')
 
     # clear buffer content
     with open('./txts/report_buffer.txt', mode='w', encoding='utf8') as temp_file:
         temp_file.write('')
+
+    msg_logs["logs"].clear()
+    JsonApi().put_json('CmdLoggingJson', msg_logs)
